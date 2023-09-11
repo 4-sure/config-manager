@@ -1,0 +1,50 @@
+---
+- name: add users
+  hosts: all
+  become: yes
+  roles:
+    - weareinteractive.users
+  vars:
+    users:
+      - username: tester
+        home: /home/tester
+        groups:
+          - sudo
+        authorized_keys:
+          - "{{ lookup('file', 'devops/ktshuma.pub') }}"
+        user_create: yes
+        home_create: yes
+        home_mode: "0750"
+        shell: /bin/bash
+    users:
+      - username: paulom
+        home: /home/paulom
+        groups:
+          - sudo
+        authorized_keys:
+          - "{{ lookup('file', 'backend/paulom.pub') }}"
+        user_create: yes
+        home_create: yes
+        home_mode: "0750"
+        shell: /bin/bash
+
+
+
+
+
+
+- name: Add users to the server
+  user:
+    name: "{{ item }}"
+    state: present
+    shell: /bin/bash
+  loop: "{{ users }}"
+  register: user_creation
+
+- name: Set up SSH keys for the users
+  authorized_key:
+    user: "{{ item }}"
+    state: present
+    key: "{{ lookup('file', './ssh_keys/' + item + '.pub') }}"
+  loop: "{{ users }}"
+  when: user_creation.changed

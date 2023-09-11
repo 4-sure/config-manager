@@ -1,0 +1,17 @@
+---
+- name: Add PostgreSQL APT Key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Add PostgreSQL APT Repository
+  apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main
+    state: present
+
+- name: Install PostgreSQL and libraries
+  apt:
+    pkg:
+    - postgresql-12
+    - postgresql-client-12
+    - libpq-dev

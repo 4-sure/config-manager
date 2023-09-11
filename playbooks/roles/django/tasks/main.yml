@@ -1,0 +1,7 @@
+---
+- name: Install Django
+  pip:
+    name: django
+    state: latest
+
+# Additional tasks to configure Django, set up the project, etc...

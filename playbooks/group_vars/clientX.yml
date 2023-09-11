@@ -1,0 +1,41 @@
+# group_vars/clientX.yml
+
+nginx_vars:
+  server_name: clientX.example.com
+  port: 10000
+  docker_container_address: 127.0.0.1:8000
+  cors_allowed_origins: "https://allowed.origin.com"
+  static_files_path: "/var/www/clientX/static"
+  ssl_certificate_path: "/etc/letsencrypt/live/clientX.example.com/fullchain.pem"
+  ssl_certificate_key_path: "/etc/letsencrypt/live/clientX.example.com/privkey.pem"
+
+
+  server_name: clientsp.example.com
+  port: 80
+  docker_container_address: 127.0.0.1:8000
+  cors_allowed_origins: "https://allowed.origin.com"
+  static_files_path: "/var/www/clientX/static"
+  ssl_certificate_path: "/etc/letsencrypt/live/clientX.example.com/fullchain.pem"
+  ssl_certificate_key_path: "/etc/letsencrypt/live/clientX.example.com/privkey.pem"
+
+
+
+pgbouncer_vars:
+  databases:
+    db1:
+      host: "127.0.0.1"
+      port: "5432"
+      user: "dbuser1"
+      password: "dbpassword1"
+    db2:
+      host: "127.0.0.1"
+      port: "5432"
+      user: "dbuser2"
+      password: "dbpassword2"
+  listen_addr: "127.0.0.1"
+  listen_port: "6432"
+  auth_type: "md5"
+  auth_file: "/etc/pgbouncer/userlist.txt"
+  pool_mode: "transaction"
+certbot_vars:
+  admin_email: admin@clientX.example.com

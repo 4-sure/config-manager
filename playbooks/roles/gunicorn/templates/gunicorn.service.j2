@@ -1,0 +1,13 @@
+[Unit]
+Description=gunicorn daemon for {{ app_name }}
+After=network.target
+
+[Service]
+User={{ app_user }}
+Group=www-data
+WorkingDirectory={{ app_directory }}
+ExecStart={{ gunicorn_path }} {{ gunicorn_wsgi_module }}:application --bind {{ gunicorn_bind }} --workers {{ gunicorn_workers }}
+EnvironmentFile={{ app_environment_file }}
+
+[Install]
+WantedBy=multi-user.target

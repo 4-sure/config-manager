@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Create /prod/ directory
+      file:
+        path: /prod
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Create /prod/ssl directory
+      file:
+        path: /prod/ssl
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'

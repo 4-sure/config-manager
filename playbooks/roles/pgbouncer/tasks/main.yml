@@ -1,0 +1,21 @@
+---
+- name: Ensure PgBouncer is installed
+  apt:
+    name: pgbouncer
+    state: present
+
+- name: Deploy the PgBouncer configuration
+  template:
+    src: pgbouncer.ini.j2
+    dest: /etc/pgbouncer/pgbouncer.ini
+    owner: postgres
+    group: postgres
+    mode: '0644'
+  notify:
+    - Restart PgBouncer
+
+handlers:
+  - name: Restart PgBouncer
+    service:
+      name: pgbouncer
+      state: restarted

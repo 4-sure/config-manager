@@ -1,0 +1,14 @@
+---
+- name: Install Certbot and Nginx plugin
+  apt:
+    name: 
+      - certbot
+      - python3-certbot-nginx
+    state: latest
+- name: Generate SSL certificates using Certbot
+  shell: |
+    certbot certonly --nginx \
+    -d {{ nginx_vars.server_name }} \
+    --non-interactive --agree-tos \
+    --email {{ certbot_vars.admin_email }} \
+    --webroot-path={{ nginx_vars.static_files_path }}

@@ -1,0 +1,12 @@
+[databases]
+* = host={{ pg_host }} port={{ pg_port }} dbname={{ pg_dbname }} user={{ pg_user }}
+
+[pgbouncer]
+listen_addr = *
+listen_port = 6432
+auth_type = md5
+auth_file = /etc/pgbouncer/userlist.txt
+logfile = /var/log/pgbouncer/pgbouncer.log
+pidfile = /var/run/pgbouncer/pgbouncer.pid
+admin_users = {{ pg_admin_users }}
+stats_users = {{ pg_stats_users }}
