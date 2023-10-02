@@ -4,15 +4,15 @@
   tasks:
     - name: Create /prod/ directory
       file:
-        path: /prod
+        path: /home/jmugabe/prod
         state: directory
         owner: root
         group: root
         mode: '0755'
 
-    - name: Create /prod/ssl directory
+    - name: Create /home/jmugabe/prod/ssl directory
       file:
-        path: /prod/ssl
+        path: /home/jmugabe/prod/ssl
         state: directory
         owner: root
         group: root

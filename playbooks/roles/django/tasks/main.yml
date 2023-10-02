@@ -1,7 +1,22 @@
 ---
-- name: Install Django
-  pip:
-    name: django
-    state: latest
+- name: Install Python and pip, then install Django
+  hosts: all
+  become: yes
 
-# Additional tasks to configure Django, set up the project, etc...
+  tasks:
+    - name: Install Python and pip
+      raw: >
+        if [[ ! -x $(command -v python3) ]]; then
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+        fi
+        
+- name: Install Django
+  hosts: all
+  become: yes  
+
+  tasks:
+    - name: Install Django using pip
+      pip:
+        name: django
+        state: latest

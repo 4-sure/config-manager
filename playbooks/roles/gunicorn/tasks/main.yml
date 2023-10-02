@@ -1,21 +1,14 @@
 ---
-- name: Install gunicorn via pip
-  pip:
-    name: gunicorn
-    state: present
-- name: Setup Gunicorn systemd service
-  template:
-    src: gunicorn.service.j2
-    dest: /etc/systemd/system/gunicorn.service
-  notify:
-    - Reload systemd
-    - Restart Gunicorn
+- name: Install Gunicorn on Ubuntu
+  hosts: all
+  become: yes 
 
-handlers:
-  - name: Reload systemd
-    command: systemctl daemon-reload
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
 
-  - name: Restart Gunicorn
-    service:
-      name: gunicorn
-      state: restarted
+    - name: Install Gunicorn using pip
+      pip:
+        name: gunicorn
+        state: present

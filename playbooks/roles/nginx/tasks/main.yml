@@ -1,33 +1,20 @@
 ---
-- name: Ensure NGINX is installed
-  apt:
-    name: nginx
-    state: present
+- name: Install Nginx on Ubuntu
+  hosts: all
+  become: yes  
+  
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
 
-- name: Remove default nginx site
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
 
-- name: Deploy the NGINX configuration
-  template:
-    src: nginx.conf.j2
-    dest: /etc/nginx/sites-available/{{ nginx_vars:server_name  }}.conf
-  notify:
-    - Restart NGINX
-
-- name: Enable the NGINX site
-  file:
-    src: /etc/nginx/sites-available/{{ inventory_hostname }}.conf
-    dest: /etc/nginx/sites-enabled/{{ inventory_hostname }}.conf
-    state: link
-  notify:
-    - Restart NGINX
-
-handlers: 
-
-- name: Restart NGINX
-  service:
-    name: nginx
-    state: restarted
-
+    - name: Start Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
